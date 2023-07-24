@@ -1,12 +1,11 @@
 import matplotlib.pyplot as plt
 import streamlit as st
-
-
+import pandas as pd
 
 st.set_page_config(
     page_title="Welcome page",
     page_icon="👋",
-    layout="centered")
+    layout="wide")
 
 #logo
 st.image('cats_logo.jpg')

@@ -1,14 +1,36 @@
-import matplotlib.pyplot as plt
-import streamlit as st
 import pandas as pd
 import numpy as np
-from data import get_data
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-st.set_page_config(
-    page_title="Descriptive statistics",
-    layout="centered")
 
-st.image('2.jpg')
+def data_types(table):
+
+    return table.dtypes.to_frame()
+
+def data_shape(table):
+        
+    count_lines, count_columns = table.shape 
+
+    return count_lines, count_columns
+
+
+def pairplot(table, grouping = None, kind = 'scatter', diag_kind='auto'):
+
+    plt.figure(figsize=(10,8), dpi= 150)
+    diagram = sns.pairplot(table, kind=kind, hue = grouping, diag_kind  = diag_kind)
+    return diagram
+
+def correlation_diagram(table):
+    
+    plt.figure(figsize=(25,20), dpi= 160)
+    plt.title('Correlation diagram', fontsize=22)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+
+    diagram = sns.heatmap(table.corr(), xticklabels=table.corr().columns, yticklabels=table.corr().columns, cmap='RdYlGn', center=0, annot=True)
+
+    return diagram.figure, table.corr()
 
 def descriptive_statistics(table, column_name):
 
@@ -60,20 +82,3 @@ def histogram_building(table, column_name, yerrors = None):
     ax.set_ylabel('Frequency')
 
     return fig
-
-
-
-uploaded_file  = st.file_uploader("Upload a .csv or .xlsx file with a maximum size of 200 mb", accept_multiple_files=False, type=['.csv', '.xlsx'])
-
-if uploaded_file is not None:
-
-    dataframe = pd.read_excel(uploaded_file)
-    table = dataframe
-
-    st.markdown('## Descriptive statistics')
-    variable = st.selectbox( 'Select a variable ', list(table))
-
-    st.write('You selected: ', variable)
-    st.write(descriptive_statistics(table, variable))
-    st.write(data_frequency(table,variable))
-    st.pyplot(histogram_building(table,variable))

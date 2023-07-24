@@ -1,14 +1,13 @@
-import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
-import seaborn as sns
 from io import StringIO
+from basic.functions import *
 
 
 st.set_page_config(
     page_title="Data Overview",
     page_icon="📑",
-    layout="centered",
+    layout="wide",
 )
 
 st.image('1.jpg')
@@ -21,36 +20,6 @@ st.markdown(
 )
 
 uploaded_file  = st.file_uploader("Upload a .csv or .xlsx file with a maximum size of 200 mb", accept_multiple_files=False, type=['.csv', '.xlsx'])
-
-
-def data_types(table):
-
-    return table.dtypes.to_frame()
-
-def data_shape(table):
-        
-    count_lines, count_columns = table.shape 
-
-    return count_lines, count_columns
-
-
-def pairplot(table, grouping = None, kind = 'scatter', diag_kind='auto'):
-
-    plt.figure(figsize=(10,8), dpi= 150)
-    diagram = sns.pairplot(table, kind=kind, hue = grouping, diag_kind  = diag_kind)
-    return diagram
-
-def correlation_diagram(table):
-    
-    plt.figure(figsize=(25,20), dpi= 160)
-    plt.title('Correlation diagram', fontsize=22)
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-
-    diagram = sns.heatmap(table.corr(), xticklabels=table.corr().columns, yticklabels=table.corr().columns, cmap='RdYlGn', center=0, annot=True)
-
-    return diagram.figure
-
 
 if uploaded_file is not None:
     # To read file as bytes:
@@ -96,7 +65,11 @@ if uploaded_file is not None:
     if st.checkbox('Correlation diagram'):
 
         st.markdown('## Correlation diagram')
-        st.pyplot(correlation_diagram(table))
+
+        st.write(correlation_diagram(table)[1])
+        st.pyplot(correlation_diagram(table)[0])
+        
+        
 
 
 
