@@ -3,4 +3,5 @@ pandas
 matplotlib
 seaborn
 numpy
-io
+basic
+pages
