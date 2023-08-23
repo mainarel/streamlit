@@ -16,9 +16,23 @@ if uploaded_file is not None:
     table = dataframe
 
     st.markdown('## Descriptive statistics')
-    variable = st.selectbox( 'Select a variable ', list(table))
+    
+   
+    
 
-    st.write('You selected: ', variable)
-    st.write(descriptive_statistics(table, variable))
-    st.write(data_frequency(table,variable))
-    st.pyplot(histogram_building(table,variable))
+    variables = st.multiselect('Select variables to display descriptive statistics', list(table), default=None)
+
+    if len(variables) > 0:
+        st.write(descriptive_statistics(table, variables))
+        st.write('You selected: ', variables)
+    else:
+        st.write('Descriptive statistics of all numeric variables:')
+        st.write(descriptive_statistics(table))
+    
+    
+    variable_for_histogram = st.selectbox('Select variables to display histogram', list(table))
+    st.pyplot(histogram_building(table,variable_for_histogram))
+
+  
+  
+    # st.write(data_frequency(table,variable))
