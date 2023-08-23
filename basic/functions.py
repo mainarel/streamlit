@@ -30,7 +30,7 @@ def correlation_diagram(table):
 
     diagram = sns.heatmap(table.corr(numeric_only = True), xticklabels=table.corr(numeric_only = True).columns, yticklabels=table.corr(numeric_only = True).columns, cmap='RdYlGn', center=0, annot=True)
 
-    return diagram.figure, table.corr()
+    return diagram.figure, table.corr(numeric_only = True)
 
 # def descriptive_statistics(table, column_name):
 

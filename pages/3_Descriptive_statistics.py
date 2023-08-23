@@ -20,8 +20,8 @@ if uploaded_file is not None:
    
     
 
-    variables = st.multiselect('Select variables to display descriptive statistics', list(table), default=None)
-
+    variables = st.multiselect('Select variables to display descriptive statistics', list(table.select_dtypes(include='number')), default=None)
+    st.write('WARNING: Only numeric columns available! ')
     if len(variables) > 0:
         st.write(descriptive_statistics(table, variables))
         st.write('You selected: ', variables)
