@@ -28,7 +28,7 @@ def correlation_diagram(table):
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
 
-    diagram = sns.heatmap(table.corr(numeric_only = True), xticklabels=table.corr().columns, yticklabels=table.corr().columns, cmap='RdYlGn', center=0, annot=True)
+    diagram = sns.heatmap(table.corr(numeric_only = True), xticklabels=table.corr(numeric_only = True).columns, yticklabels=table.corr(numeric_only = True).columns, cmap='RdYlGn', center=0, annot=True)
 
     return diagram.figure, table.corr()
 
