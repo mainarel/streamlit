@@ -32,17 +32,44 @@ def correlation_diagram(table):
 
     return diagram.figure, table.corr()
 
-def descriptive_statistics(table, column_name):
+# def descriptive_statistics(table, column_name):
 
-    descriptive_statistics = table[column_name].describe()
-    count_NAN = table[column_name].isnull().sum()
+#     descriptive_statistics = table[column_name].describe()
+#     count_NAN = table[column_name].isnull().sum()
 
-    SEM = table[column_name].describe().loc['std'] / np.sqrt(len(table) - count_NAN)
+#     SEM = table[column_name].describe().loc['std'] / np.sqrt(len(table) - count_NAN)
 
-    descriptive_statistics_frame = descriptive_statistics.to_frame()
-    descriptive_statistics_frame.loc['sem'] = [SEM] 
+#     descriptive_statistics_frame = descriptive_statistics.to_frame()
+#     descriptive_statistics_frame.loc['sem'] = [SEM] 
 
-    return  descriptive_statistics_frame
+#     return  descriptive_statistics_frame
+
+def descriptive_statistics(table, columns_names = None):
+
+    if columns_names is None:
+        descriptive_statistics_table = table.describe()
+        columns_names = descriptive_statistics_table.columns.values.tolist()
+
+        count_NAN = table[columns_names].isnull().sum()
+        SEM = table[columns_names].describe().loc['std'] / np.sqrt(len(table) - count_NAN)
+
+        new_line_sem = SEM.T.to_frame().T
+        new_line_sem.index = ['SEM']
+
+        #descriptive_statistics_frame = descriptive_statistics.to_frame()
+        descriptive_statistics = pd.concat([descriptive_statistics_table,new_line_sem])
+
+    else:
+        descriptive_statistics = table[columns_names].describe()
+        count_NAN = table[columns_names].isnull().sum()
+        SEM = table[columns_names].describe().loc['std'] / np.sqrt(len(table) - count_NAN)
+
+        new_line_sem = SEM.T.to_frame().T
+        new_line_sem.index = ['SEM']
+
+        descriptive_statistics = pd.concat([descriptive_statistics,new_line_sem])
+
+    return  descriptive_statistics
 
 def data_frequency(table, column_name):
     # pd.options.display.max_rows = 100
@@ -74,7 +101,7 @@ def histogram_building(table, column_name, yerrors = None):
 
     fig, ax = plt.subplots()
     diag =  ax.bar(histogram.index.to_list(),  height=histogram.to_list(), align = 'center', yerr = yerrors)
-    plt.figure(figsize=(15, 10))
+    #plt.figure(figsize=(15, 10))
     plt.rcParams.update({'font.size': 10})
     ax.set_title(f'Histogram {column_name}')
     ax.grid()
