@@ -20,8 +20,9 @@ st.markdown(
     """
     ### Select on the left panel what you want to explore:
 
-    - With 📑 Data overview, you will get the main characteristics of the database
-    
+    - With "📑 Data overview", you will get the main characteristics of the database
+    - With "Descripitive statistics", you can calculate descriptive statistics for all numeric variables in the table, build histograms, calculate frequencies and percentages for selected variables
+    - With "Diagram builder", different types of diagrams are built according to the specified variables"
     \n  
     
     """
